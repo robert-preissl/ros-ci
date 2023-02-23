@@ -1,0 +1,16 @@
+<launch>
+  <!-- Specify the variant of turtlebot we want -->
+  <arg name="model" default="burger"/>
+
+  <!-- Launch our robot moving script -->
+  <node pkg="ci_test" name="move" type="move.py" required="true" output="screen"/>
+
+  <!-- Launch the turtlebot simulation in Gazebo -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
+
+
+  <!-- Run our test script that asserts the robot does what we expect -->
+  <test test-name="test_move" pkg="ci_test" type="test_move.py" time-limit="30.0"/>
+</launch>
